@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
-    public int vidas = 3;
+    public Rigidbody2D rb2d;
     public float velocidad = 10;
     public float velocidadMaxima = 5;
     public float fuerzaSalto = 5;
-    public Rigidbody2D rb2d;
+    public int puntosMonedas = 10;
+    public int puntosPrinter = 100;
     private bool isGrounded;
 
     // Use this for initialization
@@ -86,6 +87,36 @@ public class Player : MonoBehaviour {
         if (collision.gameObject.tag == "Suelo")
         {
             isGrounded = false;
+        }
+    }
+
+    /// <summary>
+    /// Add points, destroy or load when collect collectables.
+    /// </summary>
+    /// <param name="collision"></param>
+    /// <remarks>Make sure that the coin have the tag "Coin" and the box collider is trigger</remarks>
+    /// <author>Daniil Digtyar</author>
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Coin")
+        {
+            Globals.puntos += puntosMonedas;
+            Destroy(collision.gameObject);
+            //ejecutar sonido "cling"
+        }
+
+        if (collision.gameObject.tag == "Printer")
+        {
+            Globals.puntos += puntosMonedas;
+            Destroy(collision.gameObject);
+            //ejecutar carga de siguente nivel
+        }
+
+        if (collision.gameObject.tag == "PitFall")
+        {
+            Globals.vidas -= 1;
+            //ejecutar sonido "muerto"
+            Application.LoadLevel("Main");
         }
     }
 }
