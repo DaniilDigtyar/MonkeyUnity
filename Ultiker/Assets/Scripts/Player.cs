@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
@@ -11,6 +12,7 @@ public class Player : MonoBehaviour {
     public int puntosMonedas = 10;
     public int puntosPrinter = 100;
     private bool isGrounded;
+
 
     // Use this for initialization
     void Start () {
@@ -45,7 +47,7 @@ public class Player : MonoBehaviour {
     {
         if (rb2d.velocity.x < velocidadMaxima)
         {
-            rb2d.AddForce(rb2d.position + new Vector2(dirreccion * velocidad, 0), ForceMode2D.Force);
+            rb2d.AddForce(new Vector2(dirreccion * velocidad, 0), ForceMode2D.Force);
         }
     }
 
@@ -116,7 +118,7 @@ public class Player : MonoBehaviour {
         {
             Globals.vidas -= 1;
             //ejecutar sonido "muerto"
-            Application.LoadLevel("Main");
+			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 }
