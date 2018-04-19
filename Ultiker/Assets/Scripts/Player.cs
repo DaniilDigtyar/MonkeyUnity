@@ -7,6 +7,8 @@ public class Player : MonoBehaviour {
 
     public Rigidbody2D rb2d;
     public Animator anim;
+	public ParticleSystem part;
+	public SpriteRenderer spri;
     public float velocidad = 10;
     public float velocidadMaxima = 5;
     public float fuerzaSalto = 5;
@@ -20,6 +22,8 @@ public class Player : MonoBehaviour {
     void Start () {
         rb2d = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+		part = GetComponent<ParticleSystem>();
+		spri = GetComponent<SpriteRenderer>();
     }
 	
 	// Update is called once per frame
@@ -113,7 +117,7 @@ public class Player : MonoBehaviour {
     /// <param name="collision"></param>
     /// <remarks>Make sure that the coin have the tag "Coin" and the box collider is trigger</remarks>
     /// <author>Daniil Digtyar</author>
-    private void OnTriggerEnter2D(Collider2D collision)
+	private IEnumerator OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Coin")
         {
@@ -130,9 +134,13 @@ public class Player : MonoBehaviour {
         }
 
         if (collision.gameObject.tag == "PitFall")
-        {
-            Globals.vidas -= 1;
-            //ejecutar sonido "muerto"
+        {	
+			part.Play();
+			spri.enabled = false;
+			//ejecutar sonido "muerto"
+
+			yield return new WaitForSeconds(1);
+			Globals.vidas -= 1;
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
