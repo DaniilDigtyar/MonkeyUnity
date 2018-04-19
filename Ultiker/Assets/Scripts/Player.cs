@@ -60,7 +60,7 @@ public class Player : MonoBehaviour {
     /// <author>Daniil Digtyar</author>
     void MovimientoHorizontal(float dirreccion)
     {
-        if (rb2d.velocity.x < velocidadMaxima)
+        if (rb2d.velocity.x < velocidadMaxima && rb2d.velocity.x > -velocidadMaxima)
         {
             rb2d.AddForce(new Vector2(dirreccion * velocidad, 0), ForceMode2D.Force);
         }
