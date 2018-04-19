@@ -9,11 +9,14 @@ public class Player : MonoBehaviour {
     public Animator anim;
 	public ParticleSystem part;
 	public SpriteRenderer spri;
+    public AudioSource explosionSound;
+    public AudioSource coinSound;
     public float velocidad = 10;
     public float velocidadMaxima = 5;
     public float fuerzaSalto = 5;
     public int puntosMonedas = 10;
     public int puntosPrinter = 100;
+    private AudioSource[] sounds;
     private bool isGrounded;
     private float direccion;
 
@@ -24,10 +27,12 @@ public class Player : MonoBehaviour {
         anim = GetComponent<Animator>();
 		part = GetComponent<ParticleSystem>();
 		spri = GetComponent<SpriteRenderer>();
+        sounds = GetComponents<AudioSource>();
+
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
 
 	}
 
@@ -121,6 +126,7 @@ public class Player : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Coin")
         {
+            sounds[0].Play();
             Globals.puntos += puntosMonedas;
             Destroy(collision.gameObject);
             //ejecutar sonido "cling"
@@ -136,6 +142,7 @@ public class Player : MonoBehaviour {
         if (collision.gameObject.tag == "PitFall")
         {	
 			part.Play();
+            sounds[1].Play();
 			spri.enabled = false;
 			//ejecutar sonido "muerto"
 
