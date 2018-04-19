@@ -6,17 +6,20 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
     public Rigidbody2D rb2d;
+    public Animator anim;
     public float velocidad = 10;
     public float velocidadMaxima = 5;
     public float fuerzaSalto = 5;
     public int puntosMonedas = 10;
     public int puntosPrinter = 100;
     private bool isGrounded;
+    private float direccion;
 
 
     // Use this for initialization
     void Start () {
         rb2d = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 	
 	// Update is called once per frame
@@ -29,7 +32,19 @@ public class Player : MonoBehaviour {
     {
         if (Input.GetAxis("Horizontal") != 0)
         {
-            MovimientoHorizontal(Input.GetAxis("Horizontal"));
+            direccion = Input.GetAxis("Horizontal");
+            MovimientoHorizontal(direccion);
+            anim.SetFloat("Direction", direccion);
+            anim.SetBool("Moving", true);
+        }
+        else
+        {
+            anim.SetBool("Moving", false);
+            if (isGrounded == true)
+            {
+                rb2d.velocity = new Vector2(rb2d.velocity.x * 0.9f, rb2d.velocity.y);
+            }
+
         }
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
