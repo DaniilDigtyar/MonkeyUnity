@@ -6,4 +6,5 @@ public class Globals : MonoBehaviour {
     static public int puntos;
     static public int vidas;
     static public bool muted;
+    static public int actualLevel;
 }

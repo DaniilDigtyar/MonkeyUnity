@@ -11,7 +11,11 @@ public class SoundControl : MonoBehaviour {
         audio = GetComponent<AudioSource>();
         //if we don't have an [_instance] set yet
         if (!_instance)
+        {
             _instance = this;
+            audio.Play();
+        }
+
         //otherwise, if we do, kill this thing
         else
             Destroy(this.gameObject);

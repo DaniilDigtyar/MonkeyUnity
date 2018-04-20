@@ -33,7 +33,10 @@ public class Player : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-
+        if (Globals.vidas.Equals(0))
+        {
+            Invoke("GameOver",1f);
+        }
 	}
 
     // FixedUpdate is called fixed in time
@@ -129,14 +132,21 @@ public class Player : MonoBehaviour {
             sounds[0].Play();
             Globals.puntos += puntosMonedas;
             Destroy(collision.gameObject);
-            //ejecutar sonido "cling"
         }
 
         if (collision.gameObject.tag == "Printer")
         {
-            Globals.puntos += puntosMonedas;
+            Globals.puntos += puntosPrinter;
+            sounds[0].Play();
             Destroy(collision.gameObject);
-            //ejecutar carga de siguente nivel
+            if(collision.name.Equals("PrinterPieceThree"))
+            {
+                Invoke("LoadWinLevel", 1f);
+            }
+            else
+            {
+                Invoke("LoadNextLevel", 1f);
+            }
         }
 
         if (collision.gameObject.tag == "PitFall")
@@ -144,11 +154,35 @@ public class Player : MonoBehaviour {
 			part.Play();
             sounds[1].Play();
 			spri.enabled = false;
-			//ejecutar sonido "muerto"
 
 			yield return new WaitForSeconds(1);
 			Globals.vidas -= 1;
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
+    }
+
+    /// <summary>
+    /// Is called when lives is 0 
+    /// </summary>
+    private void GameOver()
+    {
+        Application.LoadLevel("MenuLost");
+    }
+
+    /// <summary>
+    /// Is called when need to load next level
+    /// </summary>
+    private void LoadNextLevel()
+    {
+        Globals.actualLevel += 1;
+        Application.LoadLevel("Level" + Globals.actualLevel);
+    }
+    
+    /// <summary>
+    /// Is called when you collected the third and last piece of the printer.
+    /// </summary>
+    private void LoadWinLevel()
+    {
+        Application.LoadLevel("MenuWin");
     }
 }

@@ -53,6 +53,7 @@ public class Buttons : MonoBehaviour {
     {
         Globals.puntos = 0;
         Globals.vidas = 3;
+        Globals.actualLevel = 1;
         Application.LoadLevel("Level1");
     }
 }
