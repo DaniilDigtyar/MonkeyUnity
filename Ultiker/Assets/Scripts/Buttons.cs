@@ -45,9 +45,9 @@ public class Buttons : MonoBehaviour {
 
     public void ButtonPlay()
     {
-        if (!Globals.muted)
-            click.Play();
-        Invoke("Play",0.5f);
+		if (!Globals.muted)
+			click.Play();
+		Invoke("Play",0.5f);
     }
     public void Play()
     {
@@ -56,4 +56,26 @@ public class Buttons : MonoBehaviour {
         Globals.actualLevel = 1;
         Application.LoadLevel("Level1");
     }
+
+	public void ButtonNivell2()
+	{
+		if (!Globals.muted)
+            click.Play();
+        Invoke("Level2",0.5f);
+	}
+	public void Level2()
+	{
+		Application.LoadLevel("Level2");
+	}
+
+	public void ButtonNivell3()
+	{
+		if (!Globals.muted)
+			click.Play();
+		Invoke("Level3",0.5f);
+	}
+	public void Level3()
+	{
+		Application.LoadLevel("Level3");
+	}
 }

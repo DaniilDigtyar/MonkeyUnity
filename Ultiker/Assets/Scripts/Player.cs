@@ -13,7 +13,7 @@ public class Player : MonoBehaviour {
     public AudioSource coinSound;
     public float velocidad = 10;
     public float velocidadMaxima = 5;
-    public float fuerzaSalto = 5;
+    public float fuerzaSalto = 50;
     public int puntosMonedas = 10;
     public int puntosPrinter = 100;
     private AudioSource[] sounds;
@@ -33,10 +33,7 @@ public class Player : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (Globals.vidas.Equals(0))
-        {
-            Invoke("GameOver",1f);
-        }
+
 	}
 
     // FixedUpdate is called fixed in time
@@ -129,7 +126,8 @@ public class Player : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Coin")
         {
-            sounds[0].Play();
+			if(!Globals.muted)
+            	sounds[0].Play();
             Globals.puntos += puntosMonedas;
             Destroy(collision.gameObject);
         }
@@ -137,7 +135,8 @@ public class Player : MonoBehaviour {
         if (collision.gameObject.tag == "Printer")
         {
             Globals.puntos += puntosPrinter;
-            sounds[0].Play();
+			if(!Globals.muted)
+           		sounds[0].Play();
             Destroy(collision.gameObject);
             if(collision.name.Equals("PrinterPieceThree"))
             {
@@ -152,12 +151,21 @@ public class Player : MonoBehaviour {
         if (collision.gameObject.tag == "PitFall")
         {	
 			part.Play();
-            sounds[1].Play();
+			if(!Globals.muted)
+            	sounds[1].Play();
 			spri.enabled = false;
 
 			yield return new WaitForSeconds(1);
 			Globals.vidas -= 1;
-			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+			if (Globals.vidas.Equals(0))
+			{
+				GameOver();
+			}
+			else
+			{
+				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+			}
+
         }
     }
 
@@ -175,7 +183,7 @@ public class Player : MonoBehaviour {
     private void LoadNextLevel()
     {
         Globals.actualLevel += 1;
-        Application.LoadLevel("Level" + Globals.actualLevel);
+        Application.LoadLevel("Win" + Globals.actualLevel);
     }
     
     /// <summary>

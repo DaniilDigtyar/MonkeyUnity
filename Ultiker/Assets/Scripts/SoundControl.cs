@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class SoundControl : MonoBehaviour {
     private static SoundControl _instance;
-    private AudioSource audio;
+    private static AudioSource audio;
 
-    void Awake()
+    void Start()
     {
         audio = GetComponent<AudioSource>();
         //if we don't have an [_instance] set yet
@@ -26,19 +26,28 @@ public class SoundControl : MonoBehaviour {
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.M) && Globals.muted == false)
+        if (Input.GetKeyUp(KeyCode.M) && !Globals.muted && !Globals.paused )
         {
-            print("Sound Muted");
-            audio.Pause();
-            Globals.muted = true;
+			PauseSound();
         }
-        else if(Input.GetKeyUp(KeyCode.M) && Globals.muted == true)
+        else if(Input.GetKeyUp(KeyCode.M) && Globals.muted && !Globals.paused )
         {
-            print("Sound Unmuted");
-            audio.UnPause();
-            Globals.muted = false;
+			UnPauseSound();
         }
     }
+
+
+
+	public static void PauseSound(){
+		audio.Pause();
+		Globals.muted = true;
+	}
+
+	public static void UnPauseSound(){
+		audio.UnPause();
+		Globals.muted = false;
+	}
+
 
 }
 
