@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MyUnitySingleTone : MonoBehaviour {
-    private static MyUnitySingleTone _instance;
+public class SoundControl : MonoBehaviour {
+    private static SoundControl _instance;
     private AudioSource audio;
 
     void Awake()
